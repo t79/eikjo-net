@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+	<url>
+		<loc>https://eikjo.net/</loc>
+		<priority> 1.0 </priority>
+	</url>
+	
+	<url>
+		<loc>https://eikjo.net/laberg.html</loc>
+		<priority> 0.8 </priority>
+	</url>
+	
+	
+	<url>
+		<loc>https://eikjo.net/website/map.html</loc>
+		<priority> 0.6 </priority>
+	</url>
+	
+	<url>
+		<loc>https://eikjo.net/website/contact-form.html</loc>
+		<priority> 0.3 </priority>
+	</url>
+	<url>
+		<loc>https://eikjo.net/website/about.html</loc>
+		<priority> 0.3 </priority>
+	</url>
+	
+	
+	<url>
+		<loc>https://eikjo.net/website/sources.html</loc>
+		<priority> 0.3 </priority>
+	</url>
+	<url>
+		<loc>https://eikjo.net/website/writing-log.html</loc>
+		<priority> 0.1 </priority>
+	</url>
+
+</urlset> 
