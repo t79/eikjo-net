@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+		xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
 	<url>
 		<loc>https://eikjo.net/</loc>
 		<priority> 1.0 </priority>
+		<image:image>
+			<image:loc>https://eikjo.net/photos/eikjo-historical-1911.jpg</image:loc>
+			<image:geo_location>Ytre Eikjo, Luster, Norway</image:geo_location>
+			<image:caption>Ytre Eikjo farm seen from the sea, the year 1911.</image:caption>
+			<image:license>http://creativecommons.org/publicdomain/mark/1.0/</image:license>
+		</image:image>
 	</url>
 	
 	<url>
-		<loc>https://eikjo.net/laberg.html</loc>
+		<loc>https://eikjo.net/sections/laberg.html</loc>
 		<priority> 0.8 </priority>
 	</url>
 	
 	
 	<url>
-		<loc>https://eikjo.net/website/map.html</loc>
+		<loc>https://eikjo.net/addenda/map.html</loc>
 		<priority> 0.6 </priority>
 	</url>
 	
 	<url>
-		<loc>https://eikjo.net/website/contact-form.html</loc>
+		<loc>https://eikjo.net/addenda/contact-form.html</loc>
 		<priority> 0.3 </priority>
 	</url>
 	<url>
-		<loc>https://eikjo.net/website/about.html</loc>
+		<loc>https://eikjo.net/addenda/about.html</loc>
 		<priority> 0.3 </priority>
 	</url>
 	
 	
 	<url>
-		<loc>https://eikjo.net/website/sources.html</loc>
+		<loc>https://eikjo.net/addenda/sources.html</loc>
 		<priority> 0.3 </priority>
 	</url>
 	<url>
-		<loc>https://eikjo.net/website/writing-log.html</loc>
+		<loc>https://eikjo.net/addenda/writing-log.html</loc>
 		<priority> 0.1 </priority>
 	</url>
 
