@@ -1,171 +1,408 @@
 
-var isInRoot = false;
-var fileName = "";
-let icon_folder = "icons" + "/";
-let section_folder = "sections" + "/";
-let appendix_folder = "addenda" + "/";
-
-// DATA START
-
-let home = ["index.html", "", "#beginning", "home.png", "home-active.png", 100, 86, "Ytre Eikjo"];
-
-let sections = [
-	["index.html", "", "#beginning", 1, "Introduction"],
-	["laberg.html", section_folder, "", 2, "Laberg"]
-	
-]
-
-let appendix_part1 = [
-	["map.html", appendix_folder, "", "map.png", "map-active.png", 125, 97, "Maps"]
-];
-
-let appendix_part2 = [
-	["writing-log.html", appendix_folder, "", "log.png", "log-active.png", 74, 94, "Writing log"],
-	["sources.html", appendix_folder, "", "sources.png", "sources-active.png", 85, 85, "Sources"],
-	["about.html",  appendix_folder, "", "about.png", "about-active.png", 133, 133, "About"],
-	["contact-and-feedback.html", appendix_folder, "", "contact.png", "contact-active.png", 89, 89, "Contact and Feedback"]
-];
-
-// DATA END
 
 document.addEventListener('readystatechange', function() {
-	if (document.readyState === "complete") { addMenu(); } });
+ 	if (document.readyState === "interactive") { 
+ 		setContentWidthAndFont();
+		makeWebsiteMenu();
+	} 
+		
+	if (document.readyState === "complete") { 
+		loadLateImages(); 
+	}
+});
+		
+window.addEventListener('resize', function() {
+ 	setContentWidthAndFont();
+	placeFullscreenView();
+	window.setTimeout(function() {
+		setContentWidthAndFont();
+		placeFullscreenView();
+	}, 500);
+});
 
 
-function addMenu() {
+// ---------------------------------------------------------- //
+// Getting background image when the page is loaded.
 
-	var pathname = window.location.pathname;
-	var pathnameStripet = pathname.replace(/^(\/)/,"");
+// BASED ON DEMO CODE FROM MOZILLA.ORG
+// https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading
+function loadLateImages() {
+	console.log("starting to make background image.");
+	let imageToLoad = document.getElementById("background-image");
+	const loadImages = (image) => {
+		console.log("image loaded.");
+		image.setAttribute('src', image.getAttribute('data-src'));
+	  	image.onload = () => {
+			image.removeAttribute('data-src');
+		};
+	};
+	loadImages(imageToLoad);
+	console.log("made background image.");
+}
+
+
+// --------------------------------------------------------- //
+// Fullscreen view. 
+// Click on the image and the image will scale up to take the hole screen
+// click again and it scale down again.
+
+var originalImage;
+var scaledImage;
+var innerImageFrame;
+var fullscreenContainer;
+
+var fullscreenIsActive = false;
+
+function goIntoFullscreenImageView(image) {
+
+	window.originalImage = image;
 	
-	var pathnameParts = pathnameStripet.split('/');
+	window.fullscreenContainer = document.getElementById("fullscreen-image");
+	window.fullscreenContainer.style.backgroundColor = "#fefef8611";
+	window.fullscreenContainer.style.backdropFilter = "blur(1px)";
+	window.fullscreenContainer.style.display = "inline";
 	
+	let outerImageFrame = appendOn(window.fullscreenContainer, "div");
+	outerImageFrame.classList.add("image-view-outer-frame");
 	
-	if (pathnameParts.length == 1) { 
-		isInRoot = true;
-		fileName = pathnameParts[0];
-	} else if (pathnameParts.length == 2) {
-		fileName = pathnameParts[1];
-	} else {
+	window.innerImageFrame = appendOn(outerImageFrame, "div");
+	window.innerImageFrame.classList.add("image-view-inner-frame");
+	
+	window.innerImageFrame.style.width = window.originalImage.clientWidth + "px";
+	window.innerImageFrame.style.height = window.originalImage.clientHeight + "px";
+	window.innerImageFrame.style.opacity = "0.3";
+	
+	window.scaledImage = appendOn(window.innerImageFrame, "img");
+	window.scaledImage.src = window.originalImage.src;
+	window.scaledImage.classList.add("main-image");
+
+	window.fullscreenIsActive = true;
+	window.originalImage.style.opacity = "0";
+	window.originalImage.style.cursor = "default";
+	window.innerImageFrame.style.cursor = "zoom-out";
+		
+	window.setTimeout(function() {
+		
+		window.fullscreenContainer.style.backgroundColor = "#fefef811";
+		window.fullscreenContainer.style.backdropFilter = "blur(1px)";
+		window.innerImageFrame.style.opacity = "0.3";
+		console.log("will go into fullscreen mode. 2 ");
+		
+		 placeFullscreenView ();
+
+	}, 10);
+	
+	window.fullscreenContainer.onclick = function() {
+		
+		window.fullscreenIsActive = false;
+		//window.innerImageFrame.style.transition = "all 0.2s ease-out";
+		window.innerImageFrame.style.width = window.originalImage.clientWidth + "px";
+		window.innerImageFrame.style.height = window.originalImage.clientHeight + "px";
+		window.innerImageFrame.style.opacity = "0.6";
+		window.fullscreenContainer.style.backgroundColor = "#fefef811";
+		
+		window.innerImageFrame.addEventListener("transitionend", function() {
+			window.fullscreenContainer.style.display = "none";
+			window.fullscreenContainer.innerHTML = "";
+			window.originalImage.style.opacity = "1";
+			window.originalImage.style.cursor = "zoom-in";
+		});
+		
+	};
+}
+
+function placeFullscreenView () {
+	
+	if (!fullscreenIsActive) {
 		return;
 	}
 	
-	// ADD MENU ROOT
+	let fullImageWidth = window.originalImage.getAttribute("width");
+	let fullImageHeight = window.originalImage.getAttribute("height");
+	let fullImageRatio = fullImageWidth / fullImageHeight;
 	
-	var menuNav = document.getElementById("menu");
+	let maxScreenWidth = window.fullscreenContainer.clientWidth * 0.95;
+	let maxScreenHeight = window.fullscreenContainer.clientHeight * 0.95;
+	let maxScreenRatio = maxScreenWidth / maxScreenHeight;
+	
+	var scaledImageFullWidth;
+	var scaledImageFullHeight;
+	
+	if (fullImageWidth < maxScreenWidth && fullImageHeight < maxScreenHeight ) {
+		scaledImageFullWidth = fullImageWidth;
+		scaledImageFullHeight = fullImageHeight;
+	} else if (fullImageRatio < maxScreenRatio) {
+		scaledImageFullWidth = maxScreenHeight * fullImageRatio;
+		scaledImageFullHeight = maxScreenHeight;
+	} else {
+		scaledImageFullWidth = maxScreenWidth;
+		scaledImageFullHeight = maxScreenWidth / fullImageRatio;
+	}
+	
+	window.setTimeout(function(){
+	
+		let transitionTime = scaledImageFullWidth / window.originalImage.clientWidth * 0.2;
+		
+		window.innerImageFrame.style.transition = "all " + transitionTime + "s linear";
 
-	var menuRoot = appendOn(menuNav, "ul");
-	
-	// ADD FIRST APPENDIX PART WITH HOME LINK.
-	
-	var menu1 = appendOn(appendOn(menuRoot, "li"), "ul");
-	menu1.classList.add("menu-vertical");
-	
-	appendCreatedElementOn(menu1, createNonSectionObject(home));
-	for (let objData in appendix_part1) {
-		appendCreatedElementOn(menu1, createNonSectionObject(appendix_part1[objData]));
-	}
-	
-	
-	// ADD SECTIONS MENU.
-	
-	var menu2_sections = appendOn(appendOn(menuRoot, "li"), "ul");
-	menu2_sections.classList.add("menu-content");
-	var menu2_header = appendOn(appendOn(menu2_sections, "li"), "span");
-	menu2_header.classList.add("menu-icon");
-	appendIconOn(menu2_header, checkFilePath(icon_folder + "content.png"), 86, 85);
-	appendTextOn(menu2_header, "Story sections");
-	
-	var menu2_list = appendOn(appendOn(menu2_sections, "li"), "ul");
-	for (let objData in sections) {
-		appendCreatedElementOn(menu2_list, createSectionObject(sections[objData]));
-	}
-	
+		window.innerImageFrame.style.width = scaledImageFullWidth + "px";
+		window.innerImageFrame.style.height = scaledImageFullHeight + "px";
+		window.innerImageFrame.style.opacity = "1";
+		
+		window.fullscreenContainer.style.transition = "all 0.4s ease-in";
+		window.fullscreenContainer.style.backgroundColor = "#fefef899";
+		window.fullscreenContainer.style.backdropFilter = "blur(6px)";
+		
+		console.log("on way to fullscreen mode. ");
+	}, 10);
+}
 
-	// ADD SECOUND APPENDIX PART.
+
+// ------------------------------------------------------------------ //
+// Setting content width and font size based on users resolution.
+//
+
+let FONT_SIZE_BIG_SCREEN = 21;
+let FONT_SIZE_SMAL_SCREEN = 17.5;
+let WIDTH_MAX = 2000;
+let WIDTH_MIN = 400;
+let CONTENT_WIDTH_MIN_PX = 500;
+let CONTENT_WIDTH_SMAL_SCREEN = 100;	// prosent
+let CONTENT_WIDTH_BIG_SCREEN = 40;		// prosent
+
+function setContentWidthAndFont() {
 	
-	var menu3 = appendOn(appendOn(menuRoot, "li"), "ul");
-	menu3.classList.add("menu-vertical");
+	let fontSizeElement = document.querySelector("html");
+	let contentWidthElement = document.getElementById("page-content-layout");
+	let	innerWindowWidth = window.innerWidth <= window.screen.width ? window.innerWidth : window.screen.width;
+	//let screenDotPerPixel = window.devicePixelRatio;
 	
-	for (let objData in appendix_part2) {
-		appendCreatedElementOn(menu3, createNonSectionObject(appendix_part2[objData]));
+	// ------- setting fornt size ---------- //
+	
+	if (innerWindowWidth <= WIDTH_MIN) {
+		fontSizeElement.style.fontSize = FONT_SIZE_SMAL_SCREEN +"px";
+	} else if (innerWindowWidth >= WIDTH_MAX) {
+		fontSizeElement.style.fontSize = FONT_SIZE_BIG_SCREEN + "px";
+	} else {
+		let fontSizeDiff = FONT_SIZE_BIG_SCREEN - FONT_SIZE_SMAL_SCREEN;
+		let screenWidthDiff = WIDTH_MAX - WIDTH_MIN;
+		
+		let interpolasionValue = ((innerWindowWidth - WIDTH_MIN) / screenWidthDiff);
+		let partlyFontSize = interpolasionValue * fontSizeDiff;
+		let newFontSize = partlyFontSize + FONT_SIZE_SMAL_SCREEN;
+		
+		fontSizeElement.style.fontSize = newFontSize + "px";
+	
+	}
+	
+	// ------- setting width size ---------- //
+	
+	if (innerWindowWidth <= CONTENT_WIDTH_MIN_PX) {
+		contentWidthElement.style.width = CONTENT_WIDTH_SMAL_SCREEN + "vw";
+	} else if (innerWindowWidth >= WIDTH_MAX) {
+		contentWidthElement.style.width = CONTENT_WIDTH_BIG_SCREEN + "vw";
+	} else {
+		let contentWidthElementDiff = CONTENT_WIDTH_SMAL_SCREEN - CONTENT_WIDTH_BIG_SCREEN;
+		let screenWidthDiff = WIDTH_MAX - CONTENT_WIDTH_MIN_PX;
+		
+		let interpolasionValue = ((innerWindowWidth - CONTENT_WIDTH_MIN_PX) / screenWidthDiff);
+		let partlyContentWidth = interpolasionValue * contentWidthElementDiff;
+		let newContentWidth = CONTENT_WIDTH_SMAL_SCREEN - partlyContentWidth;
+		
+		contentWidthElement.style.width = newContentWidth + "vw";
+		
+		console.log("content widt: " + newContentWidth);
+	}
+}
+
+ 
+
+
+// ------------------------------------------------------------------ //
+// Makes the menu
+//
+
+var thisPageIsInRootFolder = false;
+var thisPageFileName = "";
+let icon_folder = "icons" + "/";
+let section_folder = "sections" + "/";
+let appendix_folder = "addenda" + "/";
+let sectionsHeaderText = "Story sections";
+
+// DATA start  ---- the pages that will be in the menu.
+
+// data structure - sections:
+// [ page filename, folder, section number, label text]
+// home and appendix:
+// [ page filename, folder, icon, icon active state, icon size, label text]
+
+let sections = [
+	["#top", "", 1, "Introduction"],
+	["laberg.html", section_folder, 2, "Laberg"]
+];
+
+let home = ["#top", "", "home.png", "home-active.png", 100, 86, "Ytre Eikjo"];
+
+let appendix_top = [
+	["map.html", appendix_folder, "map.png", "map-active.png", 125, 97, "Maps"]
+];
+
+let appendix_bottom = [
+	["writing-log.html", appendix_folder, "log.png", "log-active.png", 74, 94, "Writing log"],
+	["sources.html", appendix_folder, "sources.png", "sources-active.png", 85, 85, "Sources"],
+	["about.html",  appendix_folder, "about.png", "about-active.png", 133, 133, "About"],
+	["contact-and-feedback.html", appendix_folder, "contact.png", "contact-active.png", 89, 89, "Contact and Feedback"]
+];
+
+let shortcut = ["#menu", "", "menu.png", "", 20, 5.2, ""];
+
+// DATA END
+
+function makeWebsiteMenu() {
+
+	let thisPageFilenameAndPath = window.location.pathname;
+	let thisPageFilenameAndPathCleaned = thisPageFilenameAndPath.replace(/^(\/)/,"");
+	let thisPageFilenameAndPathDivide = thisPageFilenameAndPathCleaned.split("/");
+	
+	if (thisPageFilenameAndPathDivide.length == 1) {
+		thisPageIsInRootFolder = true;
+		thisPageFileName = thisPageFilenameAndPathDivide[0];
+	} else if (thisPageFilenameAndPathDivide.length == 2) {
+		thisPageFileName = thisPageFilenameAndPathDivide[1];
+	} else {
+		console.log("more then to elements in the path.");
+		console.log(thisPageFilenameAndPathDivide);
+		return;
 	}
 	
 	
-	// ADD TOP LINK.
 	
+	// Make MENU structure 
 	
+	let menuElement = document.getElementById("menu");
+	let menuRoot = appendOn(menuElement, "ul");
+	let menuTop = appendOn(appendOn(menuRoot, "li"), "ul");
+	let menuSections = appendOn(appendOn(menuRoot, "li"), "ul");
+	let menuBottom = appendOn(appendOn(menuRoot, "li"), "ul");
+	
+	console.log("Added menu structure.");
+	
+	// TOP MENU 
+	
+	menuTop.classList.add("menu-horizontal-bar");
+	appendButtonOn(menuTop, createNonSectionButtonWithData(home));
+	for (let buttonIndex in appendix_top) {
+		appendButtonOn(menuTop, createNonSectionButtonWithData(appendix_top[buttonIndex]));
+	}
+	
+	// SECTIONS MENU
+	
+	menuSections.classList.add("menu-sections");
+	let menuSectionsHeader = appendOn(appendOn(menuSections, "li"), "span");
+	menuSectionsHeader.classList.add("menu-sections-header");
+	appendIconOn(menuSectionsHeader, getFilePath(icon_folder + "content.png"), 86, 85);
+	appendTextOn(menuSectionsHeader, sectionsHeaderText);
+	
+	let menuSectionsButtons = appendOn(appendOn(menuSections, "li"), "ul")
+	menuSectionsButtons.classList.add("menu-sections-columns");
+	for (let buttonIndex in sections) {
+		appendButtonOn(menuSectionsButtons, createSectionsButtonWithData(sections[buttonIndex] ));
+	}
+	
+	// BOTTOM MENU
+	
+	menuBottom.classList.add("menu-horizontal-bar");
+	for (let buttonIndex in appendix_bottom) {
+		appendButtonOn(menuBottom, createNonSectionButtonWithData(appendix_bottom[buttonIndex]));
+	}	
+	
+	// SHORTCUT FROM HEADER
+	menuShortcut = document.getElementById("shortcut-to-menu");
+	menuShortcutLink = appendOn(menuShortcut, "a");
+	menuShortcutLink.href = shortcut[0];
+	menuShortcutLink.type = "text/html";
+	appendIconOn(menuShortcutLink, getFilePath(icon_folder + shortcut[2]), shortcut[4], shortcut[5]);
+
 	
 }
 
 function appendOn(element, type) {
-	var newElm = document.createElement(type);
-	element.appendChild(newElm);
-	return newElm;
-}
-
-function appendCreatedElementOn(element, newElement) {
-	element.appendChild(newElement)
-	return newElement
-}
-
-function appendTextOn(element, text) {
-	var newText = document.createTextNode(text);
-	element.appendChild(newText);
-	return newText;
+	let newElement = document.createElement(type);
+	element.appendChild(newElement);
+	return newElement;
 }
 
 function appendIconOn(element, src, width, height) {
-	var newIcon = document.createElement("img");
-	newIcon.src = src;
-	newIcon.width = 20;
-	newIcon.height = height/width * 20;
-	newIcon.alt = "";
-	newIcon.setAttribute("aria-hidden", "true");
-	element.appendChild(newIcon);
-	return newIcon;
+	let icon = document.createElement("img");
+	element.appendChild(icon);
+	icon.src = src;
+	icon.width = "20px"; 
+	icon.height = (height/width * 20) + "px";
+	icon.alt = "";
+	icon.setAttribute("aria-hidden", "true");
+	return icon;
 }
 
-function checkFilePath(filepath) {
-	return isInRoot ? filepath : "../" + filepath;
+function appendTextOn(element, text) {
+	let textElement = document.createTextNode(text);
+	element.appendChild(textElement);
+	return textElement;
 }
 
-function createSectionObject (objectData) {
-	var newLi = document.createElement("li");
-	
-	var newElm = createInnerObject(objectData);
-	
-	newLi.appendChild(newElm);
-	var numberingElm = appendOn(newElm, "span");
-	numberingElm.classList.add("seksjon-number");
-	appendTextOn(numberingElm, objectData[3]);
-	appendTextOn(newElm, objectData[4]);
-	
-	return newLi;
+function appendButtonOn(element, button) {
+	element.appendChild(button);
+	return button;
 }
 
-function createNonSectionObject (objectData) {
-	var newLi = document.createElement("li");
-	var newElm = createInnerObject(objectData);
-	newLi.appendChild(newElm);
-	appendIconOn(newElm, checkFilePath(icon_folder + objectData[3]), objectData[5], objectData[6]);
-	appendTextOn(newElm, objectData[7]);
-	return newLi;
+function createNonSectionButtonWithData(buttonData) {
+	let button = document.createElement("li");
+	let buttonContainer = appendOn(button, "div");
+	let buttonElement = createBasicButtonWithIconWithData(buttonData);
+	appendTextOn(buttonElement, buttonData[6]);
+	buttonContainer.appendChild(buttonElement);
+	buttonContainer.classList.add("menu-element-background");	
+	return button;
 }
 
-function createInnerObject (objectData) {
-	var newElm;
+function createBasicButtonWithIconWithData(buttonData) {
+	let basicButton = createBasicLinkAndNonLinkButtonWithData(buttonData);
+	appendIconOn(basicButton, getFilePath(icon_folder + buttonData[2]), buttonData[4], buttonData[5]);
+	return basicButton;
+}
+
+function createSectionsButtonWithData(buttonData) {
+	let button = document.createElement("li");
+	button.classList.add("menu-selection-button");
+	let buttonContainer =  createBasicLinkAndNonLinkButtonWithData(buttonData);
+	button.appendChild(buttonContainer);
+	let buttonNumbering = appendOn(buttonContainer, "span");
+	buttonNumbering.classList.add("menu-section-number");
+	appendTextOn(buttonNumbering, buttonData[2]);
+	appendTextOn(buttonContainer, buttonData[3]);
+	return button;
+}
+
+function createBasicLinkAndNonLinkButtonWithData(buttonData) {
+	let basicButton;
 	
-	if (objectData[0] == fileName) {
-		newElm = document.createElement("span");
+	if (buttonData[0] == thisPageFileName || (buttonData[0] == "#top" && thisPageFileName == "")) {
+		basicButton = document.createElement("span");
+		basicButton.classList.add("menu-active-page"); 
+		console.log("made a no link button");
 	} else {
-		newElm = document.createElement("a");
-		newElm.href = checkFilePath(objectData[1] + objectData[0] + objectData[2]);
-		newElm.type = "text/html"
+		basicButton = document.createElement("a");
+		basicButton.href = getFilePath(buttonData[1] + buttonData[0]);
+		basicButton.type = "text/html";
+		console.log("made a link button");
 	}
-	return newElm;
+	
+	console.log("made maybe a link button");
+	return basicButton;
 }
 
-
+function getFilePath(address) {
+	return thisPageIsInRootFolder ? address : "../" + address;
+}
 
 
 
