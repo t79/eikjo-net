@@ -1,1 +1,16 @@
 Sitemap: https://eikjo.net/sitemap.xml
+
+User-agent: *
+disallow: /website/
+disallow: /photos/eikjo-1911.jpg
+disallow: /laberg.html
+disallow: /contact-form.html
+disallow: /about.html
+disallow: /map.html
+disallow: /contact.html
+disallow: /sources.html
+disallow: /writing-log.html
+disallow: /div/
+disallow: /contact.html
+disallow: /map.html
+
