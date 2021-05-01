@@ -6,10 +6,17 @@
 	<url>
 		<loc>https://eikjo.net/</loc>
 		<priority> 1.0 </priority>
+		<lastmod>2021-04-27</lastmod>
 		<image:image>
 			<image:loc>https://eikjo.net/photos/eikjo-historical-1911.jpg</image:loc>
 			<image:geo_location>Ytre Eikjo, Luster, Norway</image:geo_location>
 			<image:caption>Ytre Eikjo farm seen from the sea, the year 1911.</image:caption>
+			<image:license>http://creativecommons.org/publicdomain/mark/1.0/</image:license>
+		</image:image>
+		<image:image>
+			<image:loc>https://eikjo.net/photos/eikjo-historical-overviw-of-the-two-farms.jpg</image:loc>
+			<image:geo_location>Ytre Eikjo, Luster, Norway</image:geo_location>
+			<image:caption>Overview of two of the farms on Ytre Eikjo.</image:caption>
 			<image:license>http://creativecommons.org/publicdomain/mark/1.0/</image:license>
 		</image:image>
 	</url>
@@ -17,6 +24,13 @@
 	<url>
 		<loc>https://eikjo.net/sections/laberg.html</loc>
 		<priority> 0.8 </priority>
+		<lastmod>2021-04-27</lastmod>
+		<image:image>
+			<image:loc>https://eikjo.net/sections/laberg-photos/the-farm-laberg-in-ytre-eikjo.jpg</image:loc>
+			<image:geo_location>Ytre Eikjo, Luster, Norway</image:geo_location>
+			<image:caption>The farm Laberg in Ytre Eikjo.</image:caption>
+			<image:license>http://creativecommons.org/publicdomain/mark/1.0/</image:license>
+		</image:image>
 	</url>
 	
 	
@@ -32,16 +46,19 @@
 	<url>
 		<loc>https://eikjo.net/addenda/about.html</loc>
 		<priority> 0.3 </priority>
+		<lastmod>2021-04-20</lastmod>
 	</url>
 	
 	
 	<url>
 		<loc>https://eikjo.net/addenda/sources.html</loc>
 		<priority> 0.3 </priority>
+		<lastmod>2021-04-27</lastmod>
 	</url>
 	<url>
 		<loc>https://eikjo.net/addenda/writing-log.html</loc>
 		<priority> 0.1 </priority>
+		<lastmod>2021-04-27</lastmod>
 	</url>
 
 </urlset> 
