@@ -13,33 +13,202 @@
 	<script src="script/swipe-story.js"></script>
 	<script src="script/add-menu.js"></script>
 	
-<script type="application/ld+json">
-{
-	"@context": "https://schema.org",
-	"@type": "Place",
-	"name": "Ytre Eikjo",
-	"geo": {
-		"@type": "GeoCoordinates",
-		"latitude": "61.330622",
-		"longitude": "7.326733"
-	},
-	"address": {
-		"@type": "PostalAddress",
-		"addressCountry": {
-			"@type": "Country",
-			"name": "Norway"
+<script type="application/ld+json"> 
+[	
+	{
+		"@context": "https://schema.org",
+  		"@type": "ItemList",
+  		"@id": "https://eikjo.net/#list-persons",
+  		"name": "Persons",
+  		"description": "List of persons that acts in this section.",
+  		"itemListElement": [
+  			{
+  				"@type": "ListItem",
+				"@id": "https://eikjo.net/#person-1",
+				"position": 1,
+				"name": "Terje Urnes",
+				"item": {
+					"@type": "Person",
+					"@id": "https://eikjo.net/sections/laberg.html#person-terje"
+				}
+  			},
+  			{
+  				"@type": "ListItem",
+				"@id": "https://eikjo.net/#person-2",
+				"position": 2,
+				"name": "Mons Eikum",
+				"item": {
+					"@type": "Person",
+					"@id": "https://eikjo.net/#person-mons",
+					"name": "Mons Eikum",
+					"familyName": "Eikum",
+					"birthDate": "1844-04-11",
+					"gender": "Male"
+				}
+  			}
+  			
+  		]
+  	},
+	{
+		"@context": "http://schema.org",
+		"@type": "WebSite",
+		"@id": "https://eikjo.net/#site",
+		"name": "A historical site about the place Ytre Eikjo in Norway.",
+		"accountablePerson": {
+			"@type": "Person",
+			"@id": "https://eikjo.net/sections/laberg.html#person-terje"
 		},
-		"addressRegion": "Vestland",
-		"addressLocality": "Marifjøra",
-		"postalCode": "NO-6873"
+		"author": {
+			"@type": "Person",
+			"@id": "https://eikjo.net/sections/laberg.html#person-terje"
+		},
+		"contentLocation": {
+			"@type": "Place",
+			"@id": "https://eikjo.net/addenda/map.html#place-ytre-eikjo"
+		},
+		"abstract": "Will stitch together some of the historical histories of the place Ytre Eikjo in Norway. This site will most likely always be under work in progress.",
+		"creativeWorkStatus": "Work in progress",
+		"license": "http://creativecommons.org/licenses/by/4.0/",
+		"hasPart": [
+			{
+				"@type": "WebPage",
+				"@id": "https://eikjo.net/#page"
+			},
+			{
+				"@type": "WebPage",
+				"@id": "https://eikjo.net/sections/laberg.html#page"
+			}
+		],
+		"url": "https://eikjo.net",
+		"version": "v0.0.10"
 	},
-	"photo": {
-		"@type": "Photograph",
-		"url": "https://eikjo.net/photos/eikjo-historical-1911.jpg",
-		"genre": "Historical"
+	{
+		"@context": "http://schema.org",
+		"@type": "WebPage",
+		"@id": "https://eikjo.net/#page",
+		"breadcrumb": {
+			"@type": "BreadcrumbList",
+			"@id": "https://eikjo.net/#breadcrumb"
+		},
+		"name": "Introducktion",
+		"speakable": {
+			"@type": "SpeakableSpecification",
+			"cssSelector": [
+				"#title1",
+				"#introduction",
+				"#eikjastrondi"
+			]
+		},
+		"mainContentOfPage": {
+			"@type": "WebPageElement",
+			"cssSelector": "#main-content"
+		},
+		"url": "https://eikjo.net"
 	},
-	"description": "It is a roadless farm in a fjord in Norway."
-}
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		"@id":  "https://eikjo.net/#article",
+		"author": {
+			"@type": "Person",
+			"@id": "https://eikjo.net/sections/laberg.html#person-terje"
+		},
+		"publisher": {
+			"@type": "Organization",
+        	"name": "t79",
+        	"@id": "http://t79.me"
+		},
+		"datePublished": "2021-04-11",
+		"dateModified": "2021-04-20",
+		"name": "Itroduction",
+		"description": "This is a story about the farm Ytre Eikjo and its placement.",
+		"headline": "Itroduction",
+		"license": "http://creativecommons.org/licenses/by/4.0/",
+		"image": "https://eikjo.net/photos/eikjo-historical-1911.jpg",
+		"citation": [
+			{
+				"@type": "WebPage",
+				"@id": "https://eikjo.net/addenda/sources.html#ref-1"
+			}
+		],
+		"mentions": [
+			{
+				"@type": "Person",
+				"@id": "https://eikjo.net/sections/laberg.html#person-terje"		
+			}
+		]
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "ImageObject",
+		"@id":  "https://eikjo.net/#photo1",
+		"creator": {
+			"@context": "https://schema.org/",
+  			"@type": "Person",
+  			"name": "'Unknown'"
+		},
+		"creditText": "'Unknown'",
+		"uploadDate": "2021-04-22",
+		"genre": "http://vocab.getty.edu/aat/300136578",
+		"provider": {
+			"@type": "Person",
+			"@id": "https://eikjo.net/sections/laberg.html#person-terje"
+		},
+		"editor": {
+			"@type": "Person",
+			"@id": "https://eikjo.net/sections/laberg.html#person-terje"		
+		},
+		"contentUrl": "https://eikjo.net/photos/eikjo-historical-1911.jpg",
+		"license": "http://creativecommons.org/publicdomain/mark/1.0/",
+		"acquireLicensePage": "https://eikjo.net/addenda/about.html#license"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "ImageObject",
+		"@id":  "https://eikjo.net/#photo2",
+		"creator": {
+			"@context": "https://schema.org/",
+  			"@type": "Person",
+  			"name": "'Unknown'"
+		},
+		"creditText": "'Unknown'",
+		"uploadDate": "2021-04-26",
+		"genre": "http://vocab.getty.edu/aat/300136578",
+		"provider": {
+			"@type": "Person",
+			"@id": "https://eikjo.net/sections/laberg.html#person-terje"
+		},
+		"editor": {
+			"@type": "Person",
+			"@id": "https://eikjo.net/sections/laberg.html#person-terje"		
+		},
+		"contentUrl": "https://eikjo.net/photos/eikjo-historical-overviw-of-the-two-farms.jpg",
+		"license": "http://creativecommons.org/publicdomain/mark/1.0/",
+		"acquireLicensePage": "https://eikjo.net/addenda/about.html#license"
+	},
+	{
+		"@context": "https://schema.org",
+ 		"@type": "BreadcrumbList",
+ 		"@id": "https://eikjo.net/#breadcrumb",
+ 		"itemListElement": [
+ 			{
+				"@type": "ListItem",
+				"@id": "https://eikjo.net/#story-link",
+				"position": 1,
+				"name": "Introduction",
+				"item": {
+				 	"@type": "WebPage",
+					"@id": "https://eikjo.net/#page",
+					"type": "https://eikjo.net/"
+			   },
+			   "nextItem": {
+			   		"@type": "ListItem",
+			   		"@id": "https://eikjo.net/sections/laberg.html#story-link"
+			   }
+			}
+ 		]
+	}
+]
 </script>
 	
 <title>The farm Ytre Eikjo</title>
