@@ -21,6 +21,8 @@
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 	<link rel="manifest" href="/manifest.webmanifest">
 	
+	<link rel="license" href="/addenda/about.html#license">
+	
 	<style>
 		html { overflow-x: hidden; }
 		img { 
@@ -103,24 +105,50 @@
  			 {
 			   	"@type": "ListItem",
 			   	"position": 1,
-			   	"name": "Introduction",
+			   	"name": "Home",
 			   	"item": {
 			   		"@type": "WebPage",
-					"@id": "https://eikjo.net/#page"
+					"@id": "https://eikjo.net/#page",
 					"type": "https://eikjo.net/"
 				}
 			},
 			{
 				"@type": "ListItem",
 				"position": 2,
-				"name": "Sources",
+				"name": "Maps of Ytre Eikjo",
 				"item": {
 				 	"@type": "WebPage",
 					"@id": "https://eikjo.net/addenda/map.html#page",
 					"type": "https://eikjo.net/addenda/map.html"
-			   },
+			   }
 			}
  		]
+	},
+  	{
+		"@context": "https://schema.org",
+		"@type": "ImageObject",
+		"@id":  "https://eikjo.net/addenda/map.html#map1",
+		"creator": {
+			"@context": "https://schema.org/",
+  			"@type": "Person",
+  			"name": "'Unknown'"
+		},
+		"creditText": "'Unknown'",
+		"uploadDate": "2021-05-2",
+		"genre": "http://vocab.getty.edu/aat/300028373",
+		"provider": {
+			"@context": "https://schema.org/",
+  			"@type": "Organization",
+  			"name": "Norwegian Mapping Authority",
+  			"url": "https://www.kartverket.no/en"
+		},
+		"editor": {
+			"@type": "Person",
+			"@id": "https://eikjo.net/sections/laberg.html#person-terje"		
+		},
+		"contentUrl": "http://eikjo.net/maps/ytre-eikjo-historical-map-1866.jpg",
+		"license": "http://creativecommons.org/publicdomain/mark/1.0/",
+		"acquireLicensePage": "https://www.kartverket.no/en/about-kartverket/historie/historiske-kart/soketreff/mitt-kart?mapId=9084"
 	}
 ]
 </script>
@@ -129,7 +157,7 @@
 	
 	<!-- HUSK TITLE!!! -->
 	
-	<title>Maps over the place - History of Ytre Eikjo</title>
+	<title>Maps over the place Ytre Eikjo in Luster in Norway</title>
 	
 </head>
 
@@ -144,7 +172,7 @@
 <header id="header-container" class="content-section">
 
 	<div id="logo" class="logo-sub">
-		<a href="../#top"><img src="../icons/logo.png" width="500px" height="200px"></a>
+		<a href="../"><img src="../icons/logo.png" width="500px" height="200px" alt="Go back to front page" title="Go back to front page"></a>
 	</div>
 
 	<nav id="shortcut-to-menu"></nav>
@@ -157,8 +185,8 @@
 <h1>Maps</h1>
 
 
-<div id="photo-overview" class="story-image-container" >
-<img src="map-photos/ytre-eikjo-historical-map-1866.jpg" alt="Overview of two of the farms on Ytre Eikjo" class="story-image"  width="1757" height="1171" onclick="goIntoFullscreenImageView(this)">
+<div id="historical-overview-map" class="story-image-container" >
+<img src="/maps/ytre-eikjo-historical-map-1866.jpg" alt="Overview of two of the farms on Ytre Eikjo" class="story-image"  width="1757" height="1171" onclick="goIntoFullscreenImageView(this)">
 <div class="story-image-caption">
 An old map from 1866. 
 Ytre Eikjo has here the old name Eikum Ytre, and you can see it in the center-lower part of the map. 
@@ -171,17 +199,23 @@ Norwegian Mapping Authority/Public domain
 
 <h2>Interactive map and aerial photo</h2>
 
-<div class="container"> 
-
-<iframe src="https://www.norgeskart.no/#!?project=norgeskart&layers=1003&zoom=10&lat=6823757.53&lon=89970.12&markerLat=6823757.5309822485&markerLon=89970.12471210503&panel=searchOptionsPanel&marker_lat=6823680.843309293&marker_lon=89946.53344235475&showSelection=false&sok=ytre%20eikjo&type=1&marker_lat=6823757.5309822485&marker_lon=89970.12471210503" class="map"></iframe>
-
+<div class="story-image-container"><div class="container"> 
+<iframe src="https://www.norgeskart.no/#!?project=norgeskart&layers=1003&zoom=14&lat=6823757.53&lon=89970.12&markerLat=6823757.5309822485&markerLon=89970.12471210503&panel=searchOptionsPanel&marker_lat=6823680.843309293&marker_lon=89946.53344235475&showSelection=false&sok=ytre%20eikjo&type=1&marker_lat=6823757.5309822485&marker_lon=89970.12471210503" class="map"></iframe>
 </div>
+<div class="story-image-caption">
+Aerial overview of Ytre Eikjo. 
+Zoom in for more details. 
+Our cabin is the one with a black roof in the lower-left, under the open green area.
+Norwegian Mapping Authority.
+</div></div>
 
-<div class="container"> 
-
-<iframe src="https://www.norgeskart.no/#!?project=norgeskart&layers=1002&zoom=10&lat=6823757.53&lon=89970.12&markerLat=6823757.5309822485&markerLon=89970.12471210503&panel=searchOptionsPanel&marker_lat=6823680.843309293&marker_lon=89946.53344235475&showSelection=false&sok=ytre%20eikjo&type=1&marker_lat=6823757.5309822485&marker_lon=89970.12471210503" class="map"></iframe>
-
+<div class="story-image-container"><div class="container"> 
+<iframe src="https://www.norgeskart.no/#!?project=norgeskart&layers=1002&zoom=8&lat=6823757.53&lon=89970.12&markerLat=6823757.5309822485&markerLon=89970.12471210503&panel=searchOptionsPanel&marker_lat=6823680.843309293&marker_lon=89946.53344235475&showSelection=false&sok=ytre%20eikjo&type=1&marker_lat=6823757.5309822485&marker_lon=89970.12471210503" class="map"></iframe>
 </div>
+<div class="story-image-caption">
+Ytre Eikjo is located almost at the inner end of the longest fjord in Norway.
+Norwegian Mapping Authority.
+</div></div>
 
 <!-- ~~~~~~~~ Content ends here ~~~~~~~~ -->
 
@@ -191,11 +225,7 @@ Norwegian Mapping Authority/Public domain
 <footer id="footer-container" class="content-section">
 
 	<!-- The main menu, javascript generated -->
-	<nav id="menu"></nav>
-
-	<div id="link-to-license">
-	This section's content was last edited in April 2021, rights reserved. <a href="../addenda/about.html#license" rel="license">License</a>
-	</div>
+	<nav id="menu" aria-label="Main"></nav>
 
 </footer>
 

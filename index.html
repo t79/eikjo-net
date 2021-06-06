@@ -21,6 +21,8 @@
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 	<link rel="manifest" href="/manifest.webmanifest">
 	
+	<link rel="license" href="/addenda/about.html#license">
+	
 	<style>
 		html { overflow-x: hidden; }
 		img { 
@@ -236,7 +238,7 @@
 				"@type": "ListItem",
 				"@id": "https://eikjo.net/#story-link",
 				"position": 1,
-				"name": "Introduction",
+				"name": "Story: Introduction",
 				"item": {
 				 	"@type": "WebPage",
 					"@id": "https://eikjo.net/#page",
@@ -256,7 +258,7 @@
 	
 	<!-- HUSK TITLE!!! -->
 	
-	<title>The story about the old farm and the place - History of Ytre Eikjo</title>
+	<title>My story about the place Ytre Eikjo and my heritage</title>
 	
 </head>
 
@@ -265,21 +267,22 @@
 
 <!-- The content part of the page. -->
 	<div id="page-content-placment">
-		<div id="page-content-layout">
+		<div id="page-content-layout" style="top: 70%;">
 
 <header id="header-container" class="content-section">
 
 	<div id="logo" class="logo-main">
-		<img src="icons/logo.png" width="500px" height="200px">
+		<img src="icons/logo.png" width="500px" height="200px" alt="">
 	</div>
 
-	<nav id="shortcut-to-menu"></nav>
+	<div id="shortcut-to-menu"></div>
 </header>
 
 <main id="story" class="content-section">
 
 <!-- ~~~~~~~~ Content starts here ~~~~~~~~ -->
 
+<article>
 
 <h1 id="title1">Introduction, the old farm.</h1>
 
@@ -327,12 +330,15 @@ Family photo/Public domain.
 </div>
 </div>
 
+</article>
 
 <!-- ~~~~~~~~ Content ends here ~~~~~~~~ -->
 
-	<nav class="continue-read">
+	<nav class="continue-read" aria-label="Continue reading">
+	
+		<span class="continue-backword"> </span>
 		
-		<span class="continue-forword"><a href="sections/laberg.html" rel="next"  id="continue-reading"><img src="icons/continue-next-page.png" class="continue-icon"  alt="Continue reading: Laberg" width="20px" height="17.899px"></a></span>
+		<span class="continue-forword"><a href="sections/laberg.html#title1" rel="next"  id="continue-reading"><img src="icons/continue-next-page.png" class="continue-icon"  alt="Continue to 'Laberg'" title="Continue to 'Laberg'" width="20px" height="17.899px"></a></span>
 
 	</nav>
 
@@ -341,7 +347,7 @@ Family photo/Public domain.
 <footer id="footer-container" class="content-section">
 
 	<!-- The main menu, javascript generated -->
-	<nav id="menu"></nav>
+	<nav id="menu" aria-label="Main"></nav>
 
 	<div id="link-to-license">
 	This section's content was last edited in April 2021, rights reserved. <a href="addenda/about.html#license" rel="license">License</a>
