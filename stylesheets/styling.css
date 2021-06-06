@@ -1,10 +1,12 @@
 :root {
-	--bg-color-main:  #f7f7f7;
+	--bg-color-main:  #f8f8fe;
 	--bg-color-fullscreen-image-view: #fefef877;
 	--bg-color-header: #fefef8aa;
 	--bg-color-main: #fefef8ee;
 	--bg-color-footer: #fefef866;
-	--bg-color-menu-active: #fefef8aa;
+	--bg-color-menu-active: #fefef8ee;
+	--menu-link-bg-color: #fefef899;
+	--menu-onsite-object-color: #fefef8;
 	
 	
 	--margin-between-main-content-parts: 2rem;
@@ -14,6 +16,9 @@
 	--font-size-main-text: 1rem;
 	--font-size-smal-text: 0.85rem;
 	--font-size-tiny-text: 0.75rem;
+	
+	--border-black-solid: 0.5px solid rgba(0,0,0,0.6);
+	--border-black-dashed: 0.5px dashed rgba(0,0,0,0.6);
 }
 
 *, *::after, *::before {
@@ -53,7 +58,7 @@ p {
 }
 
 p:target {
-	 border: 0.1vw solid black;
+	 border: var(--border-black-solid);
 	 padding: 1vw;
 }
 
@@ -75,6 +80,22 @@ a:hover, a:active {
   text-decoration-style: solid;
 }
 
+figure {
+	margin: 1vw;
+	padding: 1vw;
+	margin-bottom: var(--margin-between-main-content-parts);
+}
+
+figure:target {
+	 border: var(--border-black-solid);
+}
+
+figcaption {
+	margin-top: 0.5rem;
+	text-align: center;
+	font-size: var(--font-size-smal-text);
+}
+
 
 /* ------------------------------------------------- */
 
@@ -93,10 +114,15 @@ a:hover, a:active {
 	font-size: var(--font-size-main-text);
 	line-height: 1.6;
 	word-spacing: 0.10rem;
+	border: var(--border-black-solid);
 	z-index: 0;
 	width: 70vw;
 	max-width: 100%;
 	top: 30%;
+}
+
+#page-content-frame {
+	
 }
 
 @media only screen and (max-width: 550px) {
@@ -130,7 +156,7 @@ a:hover, a:active {
 
 .logo-sub{
 	width: 30%;
-	opacity: 60%;
+	opacity: 80%;
 }
 
 #logo img {
@@ -170,6 +196,18 @@ a:hover, a:active {
 
 /* main */
 
+main a:link, main a:visited {
+  text-decoration-line: underline;
+  text-decoration-color: #b6b6b2;
+  text-decoration-style: solid;
+}
+
+main a:hover, main a:active {
+  text-decoration-line: underline;
+  text-decoration-color: black;
+  text-decoration-style: solid;
+}
+
 #story {
 	background-color: var(--bg-color-main);
 }
@@ -179,13 +217,16 @@ a:hover, a:active {
 }
 
 .story-image-container:target {
-	 border: 0.1vw solid black;
+	 border: var(--border-black-solid);
 	 padding: 1vw;
 }
 
 .story-image{
+	display: block;
 	width: 100%;
 	height: auto;
+	margin-left: auto;
+  	margin-right: auto;
 	opacity: 1;
 	cursor: zoom-in;
 }
@@ -201,11 +242,18 @@ a:hover, a:active {
 
 /* spesial pages */
 
+tr {
+
+}
+
 td {
+	border-top: var(--border-black-dashed);
+	padding-top: 1rem;
 	padding-right: 2vw;
-	padding-bottom: 1em;
+	padding-bottom: 1rem;
 	vertical-align: top;
 	text-align: left;
+	background-color: #fefef800;
 }
 
 .table-date {
@@ -222,12 +270,16 @@ a.external::after {
   height: 1rem;
 }
 
+.smal-text {
+	font-size: var(--font-size-smal-text);
+}
+
 .ref-at {
 	font-size: var(--font-size-smal-text);
 }
 
 .ref-mark:target {
-	border: 0.1vw solid black;
+	border: var(--border-black-solid);
 	padding-left: 0.5vw;
 	padding-right: 0.5vw;
 }
@@ -245,8 +297,8 @@ a.external::after {
   position: relative;
   overflow: hidden;
   width: 100%;
-  padding-top: 100%;
-  margin-bottom: 2rem;
+  padding-top: 70%;
+  margin-bottom: 0;
 }
 
 .map {
@@ -261,7 +313,7 @@ a.external::after {
 
 
 
-.contact-form {
+#contact-form {
 	width: 100%;
 	height: 100%;
 	
@@ -275,33 +327,61 @@ form {
 textarea {
 	width: 100%;
 	padding: 12px 20px;
-	border-radius: 4px;
-	border: 0px solid #ccc;
+	border: var(--border-black-solid);
 	resize: vertical;
 	font-style: normal;
-	font-family: Garmound, serif;
+	font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
 	font-size: var(--font-size-main-text);
+	margin: 0;
 }
 
 input {
 	font-style: normal;
-	font-family: Garmound, serif;
+	font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
 	font-size: var(--font-size-main-text);
-	border-radius: 4px;
+	border: var(--border-black-solid);
 	padding: 12px 20px;
-  box-sizing: border-box;
-  border: 0px solid #ccc;
+  	/* box-sizing: border-box; */
+  	width: 100%;
+  	margin: 0.5rem 0 0 0;
 }
 
 button {
 	font-style: normal;
-	font-family: Garmound, serif;
-	border-radius: 4px;
-	padding: 12px 20px;
-  box-sizing: border-box;
-  border: 0px solid #ccc;
-  font-size: var(--font-size-main-text);
+	font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+	padding: 10px 16px;
+	border: var(--border-black-solid);
+  	/* box-sizing: border-box; */
+  	font-size: var(--font-size-main-text);
+  	background-color: var(--bg-color-menu-active);
+  	min-width: 20%;
+  	margin: 1rem 0 0 0;
 }
+
+button:hover {
+	cursor: pointer;
+	text-decoration-line: underline;
+  	text-decoration-color: black;
+  	text-decoration-style: solid;
+}
+
+
+#responce {
+	display: none;
+}
+
+#responce-error {
+	color: red;
+}
+
+#the-msg {
+	border-top: var(--border-black-dashed);
+	border-bottom: var(--border-black-dashed);
+	padding: 1rem;
+	white-space: pre-line;
+	display: none;
+}
+
 
 .form-error {
 	display: none;
@@ -367,7 +447,7 @@ button {
 	}
 
 	#menu li {
-		margin: 0.5rem 0.5rem 0.5rem 0rem;
+		margin: 0.5rem 0.5rem 0.8rem 0rem;
 	}
 
 	#menu img {
@@ -380,7 +460,7 @@ button {
 	
 	.menu-active-page {
 		color: var(--menu-onsite-object-color);
-		background-color: #00000066;
+		background-color: #00000088;
 		padding: 0.3rem 0.6rem 0.5rem 0.5rem;
 		margin: 0.2rem 0.2rem 1rem 0rem;
 	}
@@ -388,11 +468,14 @@ button {
 	#menu ul a {
 		padding: 0.3rem 0.6rem 0.5rem 0.5rem;
 		margin: 0.2rem 0.2rem 0.2rem 0rem;
-		/*background-color: var(--menu-link-bg-color);*/
+		background-color: var(--menu-link-bg-color);
+		border: var(--border-black-solid);
+
 	}
 	
 	#menu ul a:hover {
 		background-color: var(--bg-color-menu-active);
+		border: var(--border-black-solid);
 	}
 	
 		/* Top and bottom menu */
@@ -406,7 +489,7 @@ button {
 		
 		ul.menu-sections {
 			width: 100%;
-			border: 0.1vw solid rgba(0,0,0,0.6);
+			border: var(--border-black-dashed);
 		}
 		
 		.menu-sections-header {
@@ -482,7 +565,7 @@ button {
  	justify-content: center;
     align-items: center;
     max-width: 100%;
-    border: 2vw solid #ffffff;
+    /*border: 2vw solid #ffffff;*/
     /*margin: 2vw;*/
     background-color: #ffffff;
 }
