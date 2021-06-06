@@ -3,6 +3,7 @@
 document.addEventListener('readystatechange', function() {
  	if (document.readyState === "interactive") { 
  		setContentWidthAndFont();
+ 		setImageSize();
 		makeWebsiteMenu();
 	} 
 		
@@ -13,9 +14,11 @@ document.addEventListener('readystatechange', function() {
 		
 window.addEventListener('resize', function() {
  	setContentWidthAndFont();
+ 	setImageSize();
 	placeFullscreenView();
 	window.setTimeout(function() {
 		setContentWidthAndFont();
+		setImageSize();
 		placeFullscreenView();
 	}, 500);
 });
@@ -27,17 +30,14 @@ window.addEventListener('resize', function() {
 // BASED ON DEMO CODE FROM MOZILLA.ORG
 // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading
 function loadLateImages() {
-	console.log("starting to make background image.");
 	let imageToLoad = document.getElementById("background-image");
 	const loadImages = (image) => {
-		console.log("image loaded.");
 		image.setAttribute('src', image.getAttribute('data-src'));
 	  	image.onload = () => {
 			image.removeAttribute('data-src');
 		};
 	};
 	loadImages(imageToLoad);
-	console.log("made background image.");
 }
 
 
@@ -140,7 +140,6 @@ function placeFullscreenView () {
 	}
 	
 	window.setTimeout(function(){
-	
 		let transitionTime = scaledImageFullWidth / window.originalImage.clientWidth * 0.2;
 		
 		window.innerImageFrame.style.transition = "all " + transitionTime + "s linear";
@@ -152,8 +151,6 @@ function placeFullscreenView () {
 		window.fullscreenContainer.style.transition = "all 0.4s ease-in";
 		window.fullscreenContainer.style.backgroundColor = "#fefef899";
 		window.fullscreenContainer.style.backdropFilter = "blur(6px)";
-		
-		console.log("on way to fullscreen mode. ");
 	}, 10);
 }
 
@@ -162,13 +159,15 @@ function placeFullscreenView () {
 // Setting content width and font size based on users resolution.
 //
 
-let FONT_SIZE_BIG_SCREEN = 21;
-let FONT_SIZE_SMAL_SCREEN = 17.5;
+let FONT_SIZE_BIG_SCREEN = 1; // 20px
+let FONT_SIZE_SMAL_SCREEN = 3.5; // 17px
 let WIDTH_MAX = 2000;
-let WIDTH_MIN = 400;
+let WIDTH_MIN = 370;
 let CONTENT_WIDTH_MIN_PX = 500;
 let CONTENT_WIDTH_SMAL_SCREEN = 100;	// prosent
-let CONTENT_WIDTH_BIG_SCREEN = 40;		// prosent
+let CONTENT_WIDTH_BIG_SCREEN = 45;		// prosent
+
+let SISTE_LEDD = (CONTENT_WIDTH_BIG_SCREEN - CONTENT_WIDTH_SMAL_SCREEN)/(WIDTH_MAX - CONTENT_WIDTH_MIN_PX);
 
 function setContentWidthAndFont() {
 	
@@ -180,9 +179,9 @@ function setContentWidthAndFont() {
 	// ------- setting fornt size ---------- //
 	
 	if (innerWindowWidth <= WIDTH_MIN) {
-		fontSizeElement.style.fontSize = FONT_SIZE_SMAL_SCREEN +"px";
+		fontSizeElement.style.fontSize = FONT_SIZE_SMAL_SCREEN +"vw";
 	} else if (innerWindowWidth >= WIDTH_MAX) {
-		fontSizeElement.style.fontSize = FONT_SIZE_BIG_SCREEN + "px";
+		fontSizeElement.style.fontSize = FONT_SIZE_BIG_SCREEN + "vw";
 	} else {
 		let fontSizeDiff = FONT_SIZE_BIG_SCREEN - FONT_SIZE_SMAL_SCREEN;
 		let screenWidthDiff = WIDTH_MAX - WIDTH_MIN;
@@ -191,7 +190,22 @@ function setContentWidthAndFont() {
 		let partlyFontSize = interpolasionValue * fontSizeDiff;
 		let newFontSize = partlyFontSize + FONT_SIZE_SMAL_SCREEN;
 		
-		fontSizeElement.style.fontSize = newFontSize + "px";
+		let x = innerWindowWidth;
+		let xx = x * x;
+		//let y = 4.446 - 0.00291*x + 0.0000006038*xx;
+		//let y = 14.69 + 0.007013*x - 0.000001608*xx;
+		let y = 14.14 + 0.00635*x - 0.000001459*xx;
+		
+		console.log("font size y: " + y);
+		
+		//let diff = newFontSize - y;
+		//let newSize = ((y * 1.4 ) - (diff * 2));
+		
+		let newPixelSize = y; //(newSize * (innerWindowWidth)) / 100;
+		
+		fontSizeElement.style.fontSize = newPixelSize + "px";
+		
+		//console.log("viewport width: " + innerWindowWidth + " font: " + y + " " + newPixelSize);
 	
 	}
 	
@@ -209,10 +223,66 @@ function setContentWidthAndFont() {
 		let partlyContentWidth = interpolasionValue * contentWidthElementDiff;
 		let newContentWidth = CONTENT_WIDTH_SMAL_SCREEN - partlyContentWidth;
 		
-		contentWidthElement.style.width = newContentWidth + "vw";
+		//contentWidthElement.style.width = newContentWidth + "vw";
 		
-		console.log("content widt: " + newContentWidth);
+		// https://www.omnicalculator.com/statistics/quadratic-regression
+		
+		let x = innerWindowWidth;
+		let xx = x * x;
+		//let y = 135 - 0.07833*x + 0.00001667*xx;
+		let y = 338.9 + 0.3635 * x - 0.0000733 * xx;
+		
+		let diff = newContentWidth - y;
+		let newSize = (y - (diff * 1.0));
+	
+		contentWidthElement.style.width = y + "px";
+	
 	}
+}
+
+
+// ------------------------------------------------------------------ //
+// Setting the image size.
+// 3:4 landscape = 100% width
+// portrate < 100% width
+
+function setImageSize() {
+
+	var allImages = document.getElementsByClassName("story-image");
+	
+	console.log("number of images: " + allImages.length);
+	console.log("2:3 " + (3/2));
+	console.log("3:4 " + (4/3));
+	
+	var i;
+	for(i = 0; i < allImages.length; i++) {
+		console.log("ratio: " + (allImages[i].clientWidth / allImages[i].clientHeight));
+		console.log("image width: " + allImages[i].clientWidth);
+		
+		let imageRatio = allImages[i].clientWidth / allImages[i].clientHeight;
+		let hightWidthRatio = allImages[i].clientHeight / allImages[i].clientWidth;
+
+		if(imageRatio < 0.75) {
+			
+			let smallImageHeight = allImages[i].clientWidth * 7/8;
+			
+			let imageWidth = imageRatio * smallImageHeight; //allImages[i].clientWidth;
+			let imageWidthProsent = imageWidth / allImages[i].clientWidth * 100;
+			
+			console.log("new width %: " + imageWidthProsent);
+			console.log("new height: " + allImages[i].clientHeight * imageWidthProsent );
+		
+			allImages[i].style.width = imageWidthProsent + "%";
+			
+			
+		} else if(imageRatio < 1.3) {
+			 			
+			let newHeightDiff = allImages[i].clientHeight - allImages[i].clientWidth * 7/8;
+			
+			
+		}
+	}
+
 }
 
  
@@ -237,11 +307,11 @@ let sectionsHeaderText = "Story sections";
 // [ page filename, folder, icon, icon active state, icon size, label text]
 
 let sections = [
-	["#top", "", 1, "Introduction"],
+	["", "", 1, "Introduction"],
 	["laberg.html", section_folder, 2, "Laberg"]
 ];
 
-let home = ["#top", "", "home.png", "home-active.png", 100, 86, "Ytre Eikjo"];
+let home = ["", "", "home.png", "home-active.png", 100, 86, "Ytre Eikjo"];
 
 let appendix_top = [
 	["map.html", appendix_folder, "map.png", "map-active.png", 125, 97, "Maps"]
@@ -261,7 +331,8 @@ let shortcut = ["#menu", "", "menu.png", "", 20, 5.2, ""];
 function makeWebsiteMenu() {
 
 	let thisPageFilenameAndPath = window.location.pathname;
-	let thisPageFilenameAndPathCleaned = thisPageFilenameAndPath.replace(/^(\/)/,"");
+	let thisPageFilenameAndPathCleaning = thisPageFilenameAndPath.split("#");
+	let thisPageFilenameAndPathCleaned = thisPageFilenameAndPathCleaning[0].replace(/^(\/)/,"");
 	let thisPageFilenameAndPathDivide = thisPageFilenameAndPathCleaned.split("/");
 	
 	if (thisPageFilenameAndPathDivide.length == 1) {
@@ -280,12 +351,11 @@ function makeWebsiteMenu() {
 	// Make MENU structure 
 	
 	let menuElement = document.getElementById("menu");
+	menuElement.setAttribute("aria-labelledby", "primary-navigation");
 	let menuRoot = appendOn(menuElement, "ul");
 	let menuTop = appendOn(appendOn(menuRoot, "li"), "ul");
 	let menuSections = appendOn(appendOn(menuRoot, "li"), "ul");
 	let menuBottom = appendOn(appendOn(menuRoot, "li"), "ul");
-	
-	console.log("Added menu structure.");
 	
 	// TOP MENU 
 	
@@ -322,7 +392,6 @@ function makeWebsiteMenu() {
 	menuShortcutLink.href = shortcut[0];
 	menuShortcutLink.type = "text/html";
 	appendIconOn(menuShortcutLink, getFilePath(icon_folder + shortcut[2]), shortcut[4], shortcut[5]);
-
 	
 }
 
@@ -366,7 +435,12 @@ function createNonSectionButtonWithData(buttonData) {
 
 function createBasicButtonWithIconWithData(buttonData) {
 	let basicButton = createBasicLinkAndNonLinkButtonWithData(buttonData);
-	appendIconOn(basicButton, getFilePath(icon_folder + buttonData[2]), buttonData[4], buttonData[5]);
+	if (buttonData[0] == thisPageFileName || (buttonData[0] == "#top" && thisPageFileName == "")) 
+	{
+	 	appendIconOn(basicButton, getFilePath(icon_folder + buttonData[3]), buttonData[4], buttonData[5]);
+	 } else {
+	 	appendIconOn(basicButton, getFilePath(icon_folder + buttonData[2]), buttonData[4], buttonData[5]);
+	 }
 	return basicButton;
 }
 
@@ -387,16 +461,13 @@ function createBasicLinkAndNonLinkButtonWithData(buttonData) {
 	
 	if (buttonData[0] == thisPageFileName || (buttonData[0] == "#top" && thisPageFileName == "")) {
 		basicButton = document.createElement("span");
-		basicButton.classList.add("menu-active-page"); 
-		console.log("made a no link button");
+		basicButton.classList.add("menu-active-page");
 	} else {
 		basicButton = document.createElement("a");
 		basicButton.href = getFilePath(buttonData[1] + buttonData[0]);
 		basicButton.type = "text/html";
-		console.log("made a link button");
 	}
 	
-	console.log("made maybe a link button");
 	return basicButton;
 }
 
