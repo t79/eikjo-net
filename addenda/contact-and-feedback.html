@@ -60,22 +60,25 @@
 	
 	document.addEventListener('readystatechange', function() {
     		if (document.readyState === "complete") {
-    				console.log("Loading")
      	 			onload();
     		}
     	});
 	
 	function onSubmit(token) {
-	
-		console.log("Submit procedure has started");
+		$("#responce").show();
+		$("#responce-error").text("");
+        $("#responce-msg").text("Sending the message. Waiting on responce from server.");
+        
+        $("#the-msg").text($("#message-input").val());
+		$("#the-msg").show();
       
-      	data = {
+      	let data = {
 			name: $("#name-input").val(),
 			email: $("#email-input").val(),
 			message: $("#message-input").val()
 		};
-	
-		console.log(data);
+		
+		let name = $("#name-input").val();
 	
 		$.ajax({
 			type: "POST",
@@ -83,37 +86,53 @@
 			dataType: "json",
 			crossDomain: "true",
 			contentType: "application/json; charset=utf-8",
-			data: JSON.stringify(data)
+			data: JSON.stringify(data),
+			success: function(data) {
+				if (data["errorMessage"]) {
+					errorMessage({"body":"Big failure in the server."});
+					return;
+				}
+                let returnStr = data["body"];
+                let responce = "" + returnStr + " Thanks for the message " + name + " :)"
+                
+                $("#responce-msg").text(responce);
+            	return data;
+        	},
+        	error: function(xhr, status, error) {
+        		let xhrJson = JSON.parse(xhr.responseText);
+        		errorMessage(xhrJson);
+        	},
+        	timeout: 3000
 		});
+
 		
-		console.log("Submit procedure has Endedt");
-		
-		$("#message-input").hide();
+		$("#contact-form").trigger("reset");
+		$("#name-input").trigger("reset");
+    	$("#email-input").trigger("reset");
       
+      	grecaptcha.reset();
     }
     
-    function onError() {
-    	
-    	console.log("Error!");
-    	
-    	$(".error-msg").text("Error: reCaptcha can not verfify that you are human. Please try again later.");
-    	$(".your-msg").text($("#message-input").val());
-    	$(".form-error").show();
-    	
-    	$("#message-input").hide();
-    	$("#name-input").hide();
-    	$("#email-input").hide();
-    
+    function errorMessage(data) {
+    			var returnStr = "";
+    			if (data["body"]) {
+    				returnStr = data["body"];
+    			}
+        		$("#responce-error").text("I got a failed response");
+            	$("#responce-msg").text("when trying to send the message. Please try again later or contact me on author@eikjo.net. " + returnStr);
     }
-	
+    
 	function validate(event) {
       event.preventDefault();
-      if (!document.getElementById('name-input').value) {
-        alert("You must add text to the required field");
+      $("#responce").show();
+      $("#the-msg").hide();
+      if (!document.getElementById('message-input').value) {
+        $("#responce-error").text("Sorry,");
+        $("#responce-msg").text("but a message is required.");
+        $("#message-input").css("border-color", "red");
       } else {
-      	console.log("Ready to execute");
+      	$("#message-input").css("border-color", "black");
         grecaptcha.execute();
-        console.log("We have executed");
       }
     }
     
